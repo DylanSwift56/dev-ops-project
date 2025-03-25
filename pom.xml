@@ -183,22 +183,23 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>1.2.2</version>
-        <configuration>
-          <imageName>your-repo/spring-petclinic</imageName>
-          <dockerDirectory>${project.basedir}</dockerDirectory>
-          <resources>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
-              <include>${project.build.finalName}.jar</include>
-            </resource>
-          </resources>
-        </configuration>
-      </plugin>
+    <plugin>
+      <groupId>com.spotify</groupId>
+      <artifactId>docker-maven-plugin</artifactId>
+      <version>1.2.2</version>
+      <configuration>
+        <imageName>petclinicdylan.azurecr.io/spring-petclinic:${project.version}</imageName>
+        <dockerDirectory>${project.basedir}</dockerDirectory>
+        <resources>
+          <resource>
+            <targetPath>/</targetPath>
+            <directory>${project.build.directory}</directory>
+            <include>${project.build.finalName}.jar</include>
+          </resource>
+        </resources>
+        <serverId>acr-credentials</serverId>
+      </configuration>
+    </plugin>
 
       <plugin>
         <groupId>org.jacoco</groupId>
