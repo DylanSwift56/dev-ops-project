@@ -14,7 +14,6 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    // Method 1: Direct docker commands (most reliable)
                     withCredentials([usernamePassword(
                         credentialsId: 'acr-credentials',
                         usernameVariable: 'ACR_USER',
@@ -26,3 +25,8 @@ pipeline {
                             docker push ${ACR_REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}
                         """
                     }
+                }
+            }
+        }
+    }
+}
