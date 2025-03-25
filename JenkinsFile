@@ -6,20 +6,14 @@ pipeline {
                 bat 'mvn clean package'
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("petclinicdylan.azurecr.io/spring-petclinic:${env.BUILD_ID}")
-                }
-            }
-        }
-
-        stage('Push to ACR') {
-            steps {
-                script {
-                    docker.withRegistry('https://petclinicdylan.azurecr.io', 'acr-credentials') {
-                        docker.image("petclinicdylan.azurecr.io/spring-petclinic:${env.BUILD_ID}").push()
+                    docker.withTool('docker') {
+                        docker.withRegistry('https://petclinicdylan.azurecr.io', 'acr-credentials') {
+                            def customImage = docker.build("petclinicdylan.azurecr.io/spring-petclinic:${env.BUILD_ID}")
+                            customImage.push()
+                        }
                     }
                 }
             }
