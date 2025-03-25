@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build JAR') {
+            steps {
+                bat 'mvn clean package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("petclinicdylan.azurecr.io/spring-petclinic:${env.BUILD_ID}")
+                }
+            }
+        }
+
+        stage('Push to ACR') {
+            steps {
+                script {
+                    docker.withRegistry('https://petclinicdylan.azurecr.io', 'acr-credentials') {
+                        docker.image("petclinicdylan.azurecr.io/spring-petclinic:${env.BUILD_ID}").push()
+                    }
+                }
+            }
+        }
+    }
+}
