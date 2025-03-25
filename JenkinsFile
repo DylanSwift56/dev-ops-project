@@ -1,22 +1,28 @@
 pipeline {
     agent any
+    environment {
+        ACR_REGISTRY = "petclinicdylan.azurecr.io"
+        IMAGE_NAME = "spring-petclinic"
+    }
     stages {
         stage('Build JAR') {
             steps {
                 bat 'mvn clean package'
             }
         }
-        stage('Build Docker Image') {
+        
+        stage('Docker Build & Push') {
             steps {
                 script {
-                    docker.withTool('docker') {
-                        docker.withRegistry('https://petclinicdylan.azurecr.io', 'acr-credentials') {
-                            def customImage = docker.build("petclinicdylan.azurecr.io/spring-petclinic:${env.BUILD_ID}")
-                            customImage.push()
-                        }
+                    // Method 1: Direct docker commands (most reliable)
+                    withCredentials([usernamePassword(
+                        credentialsId: 'acr-credentials',
+                        usernameVariable: 'ACR_USER',
+                        passwordVariable: 'ACR_PASSWORD'
+                    )]) {
+                        bat """
+                            docker login ${ACR_REGISTRY} -u ${ACR_USER} -p ${ACR_PASSWORD}
+                            docker build -t ${ACR_REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} .
+                            docker push ${ACR_REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}
+                        """
                     }
-                }
-            }
-        }
-    }
-}
