@@ -65,7 +65,7 @@ and for [PostgreSQL](https://github.com/spring-projects/spring-petclinic/blob/ma
 
 ## Compiling the CSS.
 
-There is a `petclinic.css` in `src/main/resources/static/resources/css`. It was generated from the `petclinic.scss` source, combined with the [Bootstrap](https://getbootstrap.com/) library. If you make changes to the `scss`, or upgrade Bootstrap, you will need to re-compile the CSS resources using the Maven profile "css", i.e. `./mvnw package -P css`. There is no build profile for Gradle to compile the CSS
+There is a `petclinic.css` in `src/main/resources/static/resources/css`. It was generated from the `petclinic.scss` source, combined with the [Bootstrap](https://getbootstrap.com/) library. If you make changes to the `scss`, or upgrade Bootstrap, you will need to re-compile the CSS resources using the Maven profil e "css", i.e. `./mvnw package -P css`. There is no build profile for Gradle to compile the CSS
 
 ## Working with Petclinic in your IDE
 
