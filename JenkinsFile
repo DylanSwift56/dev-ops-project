@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv(SONARQUBE) {
-                        bat 'mvn sonar:sonar -Dsonar.projectKey=dylan-petclinic -Dsonar.sources=src'
+                        bat 'mvn sonar:sonar -Dsonar.projectKey=dylan-petclinic -Dsonar.sources=src/main -Dsonar.tests=src/test'
                     }
                 }
             }
