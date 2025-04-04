@@ -3,7 +3,7 @@ pipeline {
     environment {
         ACR_REGISTRY = "petclinicdylan.azurecr.io"
         IMAGE_NAME = "spring-petclinic"
-        SONARQUBE = "SonarQube"
+        SONARQUBE = "SonarQube" 
     }
     stages {
         stage('Build JAR') {
@@ -15,9 +15,8 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def mvn = tool 'Default Maven'
-                    withSonarQubeEnv() {
-                        sh "mvn clean verify sonar:sonar -Dsonar.projectKey=dylan-petclinic -Dsonar.projectName='dylan-petclinic'"
+                    withSonarQubeEnv(SONARQUBE) {
+                        bat 'mvn sonar:sonar -Dsonar.projectKey=petclinic-dylan -Dsonar.sources=src'
                     }
                 }
             }
