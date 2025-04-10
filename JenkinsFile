@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        ACR_REGISTRY = "petclinicdylan.azurecr.io"
+        ACR_REGISTRY = "petclinic1.azurecr.io"
         IMAGE_NAME = "spring-petclinic"
         SONARQUBE = "SonarQube" 
     }
